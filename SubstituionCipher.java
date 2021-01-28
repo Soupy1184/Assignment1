@@ -1,22 +1,9 @@
-import java.util.Collections;
-import java.util.List;
-
 public class SubstituionCipher {
-    String keySpace;
+    String keySpace = "abcdefghijklmnopqrstuvwxyz ,.";
     String key;
 
-    public SubstituionCipher(String keySpace) {
-        this.keySpace = keySpace;
-        
-        char[] characters = keySpace.toCharArray();
-        for (int i = 0; i < characters.length; i++) {
-            int randomIndex = (int)(Math.random() * characters.length);
-            char temp = characters[i];
-            characters[i] = characters[randomIndex];
-            characters[randomIndex] = temp;
-        }
-        
-        this.key = String.valueOf(characters);
+    public SubstituionCipher(String key) {
+        this.key = key;
     }
 
     public String encrypt(String plaintext) {
@@ -35,18 +22,21 @@ public class SubstituionCipher {
     }
 
     public String decrypt(String ciphertext){
-        String plaintext = "";
+        String plainText = "";
+        String cipherText = ciphertext.toLowerCase();
 
-        return plaintext;
+        for (int i = 0; i < cipherText.length(); i++){
+            for (int j = 0; j < key.length(); j++){
+                if (cipherText.charAt(i) == key.charAt(j)){
+                    plainText += keySpace.charAt(j);
+                }
+            }
+        }
+
+        return plainText;
     }
 
     public String getKey(){
         return key;
     }
 }
-
-// abcdefghijklmnopqrstuvwxyz - keySpace
-// dwblskmaghcejqyuzxintrpofv - Key
-
-//plaintext - hello
-//ciphertext - 
