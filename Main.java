@@ -1,47 +1,85 @@
 public class Main {
     public static void main(String[] args){
-        String keySpace = "abcdefghijklmnopqrstuvwxyz ,.";
-        String key = "zkbvxgrlcpwhsautm.qyo,d jenif";
-        //int[] subKey = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28};
+        
         String encryptString;
         String decryptString;
-
-        // //For random key use this code;
-        // char[] characters = keySpace.toCharArray();
-        // for (int i = 0; i < characters.length; i++) {
-        //     int randomIndex = (int)(Math.random() * characters.length);
-        //     char temp = characters[i];
-        //     characters[i] = characters[randomIndex];
-        //     characters[randomIndex] = temp;
-        // }
-        // key = String.valueOf(characters);
+        String plaintext = "Hello world, what a beautiful day.";   
 
         //Question #1 - Substitution Cipher
         System.out.println("SUBSTITUTION CIPHER");
-        SubstituionCipher cipher1 = new SubstituionCipher(key);
+        String keySpace = "abcdefghijklmnopqrstuvwxyz ,.";
+        String substitutionKey = genRandomSubstituionKey(keySpace);
+ 
+        SubstituionCipher cipher1 = new SubstituionCipher(substitutionKey, keySpace);
         System.out.println("Plaintext: Hello world, what a beautiful day.");
 
         System.out.printf("Key space: %s\n", keySpace);
         System.out.printf("Key: %s\n", cipher1.getKey());
-        encryptString = cipher1.encrypt("Hello world, what a beautiful day.");
+        encryptString = cipher1.encrypt(plaintext);
         System.out.printf("Encryption: %s\n", encryptString);
         decryptString = cipher1.decrypt(encryptString);
         System.out.printf("Decryption: %s\n", decryptString);
-        
+
         System.out.println();
 
-        //Question #2 - Permutation Cipher
+        // Question #2 - Permutation Cipher
         System.out.println("PERMUTATION CIPHER");
-
-        int[] permKey = {3, 0, 2, 1, 4};
+        int m = getRandomNumberInRange(5, 5);
+        //int[] permKey = { 3, 0, 2, 1, 4 };
+        int[] permKey = new int[m];
+        permKey =  genRandomPermutationKey(m);
 
         PermutationCipher cipher2 = new PermutationCipher(permKey, permKey.length);
-        System.out.printf("Encryption Key: %s\n", cipher2.getEncKey());
-        System.out.printf("Decryption Key: %s\n", cipher2.getDecKey());
-        encryptString = cipher2.encrypt("Hello world, what a beautiful day.");
+        System.out.printf("Encryption Key: %s\n", cipher2.getEncryptionKey());
+        System.out.printf("Decryption Key: %s\n", cipher2.getDecryptionKey());
+        encryptString = cipher2.encrypt(plaintext);
         System.out.println(encryptString);
         decryptString = cipher2.decrypt(encryptString);
         System.out.println(decryptString);
 
+        System.out.println();
+
+        // Question #3 - Permutation Attack
+        System.out.println("PERMUTATION ATTACK");
+        String ciphertext = cipher2.encrypt(plaintext);
+
+        PermutationAttack attack1 = new PermutationAttack(ciphertext, plaintext);
+        System.out.printf("Value of m: %s\n", attack1.getPermutationM());
+        System.out.printf("Encryption Key: %s\n", attack1.getPermutationKey());
     }
+
+    public static String genRandomSubstituionKey(String keySpace) {
+        char[] c = keySpace.toCharArray();
+
+        for (int i = 0; i < c.length; i++) {
+            int rand = (int)(Math.random() * c.length);
+            char temp = c[i];
+            c[i] = c[rand];
+            c[rand] = temp;
+        }
+
+        return String.valueOf(c);
+    }
+
+    private static int getRandomNumberInRange(int min, int max) {
+        int result = (int) ((Math.random() * ((max - min) + 1)) + min);
+        return result;
+    }
+
+    public static int[] genRandomPermutationKey(int m){
+        int[] tempArray = new int[m];
+
+        for (int i = 0; i < m; i++){
+            tempArray[i] = i;
+        }
+
+        for (int i = 0; i < tempArray.length; i++) {
+            int rand = (int)(Math.random() * tempArray.length);
+            int temp = tempArray[i];
+            tempArray[i] = tempArray[rand];
+            tempArray[rand] = temp;
+        }
+        return tempArray;
+    }
+    
 }

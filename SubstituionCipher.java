@@ -1,9 +1,10 @@
 public class SubstituionCipher {
-    String keySpace = "abcdefghijklmnopqrstuvwxyz ,.";
+    String keySpace;
     String key;
 
-    public SubstituionCipher(String key) {
+    public SubstituionCipher(String key, String keySpace) {
         this.key = key;
+        this.keySpace = keySpace;
     }
 
     public String encrypt(String plaintext) {

@@ -4,31 +4,35 @@ import java.util.List;
 
 public class PermutationCipher {
     int m;
-    int[] encKey;
-    int[] decKey;
+    int[] encryptionKey;
+    int[] decryptionKey;
 
     public PermutationCipher(int[] key, int m){
-        this.encKey = key;
         this.m = m;
+        this.encryptionKey = key;
+        this.decryptionKey = new int[m];
 
-        this.decKey = new int[m];
-        findDecryptionKey(encKey);
-        
+        findDecryptionKey(encryptionKey);  
     }
-
-    
 
     public String encrypt(String plaintext) {
         String cipherText = "";
         String plainText = plaintext.toLowerCase();
+
+        if (plainText.length() % m != 0){
+            int add = m - (plainText.length() % m);
+            for (int i = 0; i < add; i++){
+                plainText += 'x';
+            }
+        }
+
         List<String> cipherArray = getParts(plainText);
         
         for (String string : cipherArray) {
             for (int i = 0; i < string.length(); i++){
-                cipherText += string.charAt(encKey[i]);
+                cipherText += string.charAt(encryptionKey[i]);
             }
         }
-        
         
         return cipherText;
     }
@@ -40,19 +44,19 @@ public class PermutationCipher {
         
         for (String string : plainArray) {
             for (int i = 0; i < string.length(); i++){
-                plainText += string.charAt(decKey[i]);
+                plainText += string.charAt(decryptionKey[i]);
             }
         }
         
         return plainText;
     }
 
-    public String getEncKey(){
-        return Arrays.toString(encKey);
+    public String getEncryptionKey(){
+        return Arrays.toString(encryptionKey);
     }
 
-    public String getDecKey(){
-        return Arrays.toString(decKey);
+    public String getDecryptionKey(){
+        return Arrays.toString(decryptionKey);
     }
 
     //This method grabbed from this source:
@@ -67,11 +71,11 @@ public class PermutationCipher {
         return parts;
     }
 
-    private int[] findDecryptionKey(int[] encKey){
+    private int[] findDecryptionKey(int[] encryptionKey){
         for (int i = 0; i < m; i++) {
-            decKey[encKey[i]] = i;
+            decryptionKey[encryptionKey[i]] = i;
         }
 
-        return decKey;
+        return decryptionKey;
     }
 }
