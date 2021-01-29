@@ -24,8 +24,7 @@ public class Main {
 
         // Question #2 - Permutation Cipher
         System.out.println("PERMUTATION CIPHER");
-        int m = getRandomNumberInRange(5, 5);
-        //int[] permKey = { 3, 0, 2, 1, 4 };
+        int m = getRandomNumberInRange(3, 7);
         int[] permKey = new int[m];
         permKey =  genRandomPermutationKey(m);
 
@@ -41,9 +40,9 @@ public class Main {
 
         // Question #3 - Permutation Attack
         System.out.println("PERMUTATION ATTACK");
-        String ciphertext = cipher2.encrypt(plaintext);
+        //String ciphertext = cipher2.encrypt(plaintext);
 
-        PermutationAttack attack1 = new PermutationAttack(ciphertext, plaintext);
+        PermutationAttack attack1 = new PermutationAttack(encryptString, decryptString);
         System.out.printf("Value of m: %s\n", attack1.getPermutationM());
         System.out.printf("Encryption Key: %s\n", attack1.getPermutationKey());
     }
