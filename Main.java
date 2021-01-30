@@ -28,7 +28,7 @@ public class Main {
         int[] permKey = new int[m];
         permKey =  genRandomPermutationKey(m);
 
-        PermutationCipher cipher2 = new PermutationCipher(permKey, permKey.length);
+        PermutationCipher cipher2 = new PermutationCipher(permKey, m);
         System.out.printf("Encryption Key: %s\n", cipher2.getEncryptionKey());
         System.out.printf("Decryption Key: %s\n", cipher2.getDecryptionKey());
         encryptString = cipher2.encrypt(plaintext);
