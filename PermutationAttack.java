@@ -52,6 +52,7 @@ public class PermutationAttack {
 
             if (distance == 0){
                 this.m = i;
+                break;
             }
         }
         
