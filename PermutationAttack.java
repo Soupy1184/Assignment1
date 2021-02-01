@@ -1,7 +1,5 @@
-import java.text.NumberFormat.Style;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 public class PermutationAttack {
@@ -18,8 +16,12 @@ public class PermutationAttack {
         attack();
     }
 
-    public String getPermutationKey(){
+    public String getEncryptionKey(){
         return Arrays.toString(encryptionKey);
+    }
+
+    public String getDecryptionKey(){
+        return Arrays.toString(decryptionKey);
     }
 
     public String getPermutationM(){
@@ -29,41 +31,62 @@ public class PermutationAttack {
     private void attack(){
         String string1 = "";
         String string2 = "";
+        char[] plaintextArray;
+        char[] ciphertextArray;
 
+        //Using hamming distance to find m
         for (int i = 2; i < 10; i++){
             List<String> cipherList = getParts(ciphertext, i);
             List<String> plainList = getParts(plaintext, i);
-            int distance = 0;
             
-            for(int j = 0; j < cipherList.size(); j++){
+            int distance = 0;
+
+            for (int j = 0; j < cipherList.size(); j++) {
                 string1 = sortString(cipherList.get(j));
                 string2 = sortString(plainList.get(j));
 
-                //System.out.printf("Round %d:\n", j);
-
                 for (int m = 0; m < string1.length(); m++) {
-                    //System.out.printf("%s %s \n", string1.charAt(m), string2.charAt(m));
-                    if (string1.charAt(m) != string2.charAt(m)){
-                      distance++;
+                    if (string1.charAt(m) != string2.charAt(m)) {
+                        distance++;
                     }
                 }
-                //System.out.printf("Distance %d, m = %d:\n", distance, this.m);
             }
 
-            if (distance == 0){
+            if (distance == 0) {
                 this.m = i;
+                break;
+            }
+
+        }
+        
+        decryptionKey = new int[m];
+        plaintextArray = plaintext.toCharArray();
+        ciphertextArray = ciphertext.toCharArray();
+        //Creates a list of strings with size of the key
+        List<String> plainCheck = getParts(plaintext, m);
+        List<String> cipherCheck = getParts(ciphertext, m);
+
+        //Loop through the list until you find one with no duplicates
+        for (int i = 0; i < plainCheck.size(); i++){
+            if(!check(plainCheck.get(i))){
+                plaintextArray = plainCheck.get(i).toCharArray();
+                ciphertextArray = cipherCheck.get(i).toCharArray();
                 break;
             }
         }
         
-        encryptionKey = new int[m];
-        for (int i = 0; i < encryptionKey.length; i++){
-            for (int j = 0; j < encryptionKey.length; j++){
-                if (plaintext.charAt(i) == ciphertext.charAt(j)){
-                    encryptionKey[i] = j;
+        
+        for (int i = 0; i < decryptionKey.length; i++){
+            for (int j = 0; j < decryptionKey.length; j++){
+                if (plaintextArray[i] == ciphertextArray[j]){
+                    decryptionKey[i] = j;
+                    ciphertextArray[j] = '_';
+                    break;
                 }
             }
         }
+        this.encryptionKey = new int[m];
+        encryptionKey = findEncryptionKey(decryptionKey);
     }
 
 
@@ -92,5 +115,24 @@ public class PermutationAttack {
             parts.add(string.substring(i, Math.min(len, i + m)));
         }
         return parts;
+    }
+
+    public static boolean check(String g) {
+        for (int i = 0; i < g.length(); i++) {
+            for (int j = i + 1; j < g.length(); j++) {
+                if (g.charAt(i) == g.charAt(j)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private int[] findEncryptionKey(int[] decryptionKey){
+        for (int i = 0; i < m; i++) {
+            encryptionKey[decryptionKey[i]] = i;
+        }
+
+        return encryptionKey;
     }
 }

@@ -44,7 +44,8 @@ public class Main {
 
         PermutationAttack attack1 = new PermutationAttack(encryptString, decryptString);
         System.out.printf("Value of m: %s\n", attack1.getPermutationM());
-        System.out.printf("Encryption Key: %s\n", attack1.getPermutationKey());
+        System.out.printf("Encryption Key: %s\n", attack1.getEncryptionKey());
+        System.out.printf("Decryption Key: %s\n", attack1.getDecryptionKey());
     }
 
     public static String genRandomSubstituionKey(String keySpace) {
