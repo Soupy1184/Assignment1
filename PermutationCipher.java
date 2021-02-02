@@ -15,6 +15,7 @@ public class PermutationCipher {
         findDecryptionKey(encryptionKey);  
     }
 
+    //encrypt plaintext into ciphertext
     public String encrypt(String plaintext) {
         String cipherText = "";
         String plainText = plaintext.toLowerCase();
@@ -37,6 +38,7 @@ public class PermutationCipher {
         return cipherText;
     }
 
+    //decrypt ciphertext to plaintext
     public String decrypt(String ciphertext){
         String plainText = "";
         String cipherText = ciphertext.toLowerCase();
@@ -71,6 +73,7 @@ public class PermutationCipher {
         return parts;
     }
 
+    //inverse permutation of encryprion key
     private int[] findDecryptionKey(int[] encryptionKey){
         for (int i = 0; i < m; i++) {
             decryptionKey[encryptionKey[i]] = i;

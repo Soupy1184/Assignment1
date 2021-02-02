@@ -7,6 +7,7 @@ public class SubstituionCipher {
         this.keySpace = keySpace;
     }
 
+    //encrypts plaintext into ciphertext
     public String encrypt(String plaintext) {
         String cipherText = "";
         String plainText = plaintext.toLowerCase();
@@ -22,6 +23,7 @@ public class SubstituionCipher {
         return cipherText;
     }
 
+    //decrypts cipher text into plaintext
     public String decrypt(String ciphertext){
         String plainText = "";
         String cipherText = ciphertext.toLowerCase();

@@ -35,6 +35,8 @@ public class PermutationAttack {
         char[] ciphertextArray;
 
         //Using hamming distance to find m
+        //When it loops through an entire string with 
+        //0 distance index i is the length of the permutation
         for (int i = 2; i < 10; i++){
             List<String> cipherList = getParts(ciphertext, i);
             List<String> plainList = getParts(plaintext, i);
@@ -56,9 +58,10 @@ public class PermutationAttack {
                 this.m = i;
                 break;
             }
-
         }
         
+        //this step uses the m to place the numbers into the 
+        //key array
         decryptionKey = new int[m];
         plaintextArray = plaintext.toCharArray();
         ciphertextArray = ciphertext.toCharArray();
@@ -75,7 +78,7 @@ public class PermutationAttack {
             }
         }
         
-        
+        //Finds the decryption key
         for (int i = 0; i < decryptionKey.length; i++){
             for (int j = 0; j < decryptionKey.length; j++){
                 if (plaintextArray[i] == ciphertextArray[j]){
@@ -85,6 +88,7 @@ public class PermutationAttack {
                 }
             }
         }
+        //Takes the inverse of the decryption key to find the encryption key
         this.encryptionKey = new int[m];
         encryptionKey = findEncryptionKey(decryptionKey);
     }
@@ -117,6 +121,7 @@ public class PermutationAttack {
         return parts;
     }
 
+    //function that checks for duplicates
     public static boolean check(String g) {
         for (int i = 0; i < g.length(); i++) {
             for (int j = i + 1; j < g.length(); j++) {
@@ -128,6 +133,7 @@ public class PermutationAttack {
         return false;
     }
 
+    //inverse permutation of decryption key
     private int[] findEncryptionKey(int[] decryptionKey){
         for (int i = 0; i < m; i++) {
             encryptionKey[decryptionKey[i]] = i;
