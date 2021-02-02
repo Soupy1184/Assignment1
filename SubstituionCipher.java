@@ -11,7 +11,24 @@ public class SubstituionCipher {
     public String encrypt(String plaintext) {
         String cipherText = "";
         String plainText = plaintext.toLowerCase();
-        
+
+        //replaces characters outside the keyspace given in the assignment with a space
+        String replaceString = plainText.replace('"', ' ');
+        replaceString = replaceString.replace('-', ' ');
+        replaceString = replaceString.replace('\'', ' ');
+        replaceString = replaceString.replace('%', ' ');
+        replaceString = replaceString.replace('1', ' ');
+        replaceString = replaceString.replace('2', ' ');
+        replaceString = replaceString.replace('3', ' ');
+        replaceString = replaceString.replace('4', ' ');
+        replaceString = replaceString.replace('5', ' ');
+        replaceString = replaceString.replace('6', ' ');
+        replaceString = replaceString.replace('7', ' ');
+        replaceString = replaceString.replace('8', ' ');
+        replaceString = replaceString.replace('9', ' ');
+        replaceString = replaceString.replace('0', ' ');
+        plainText = replaceString;
+
         for (int i = 0; i < plainText.length(); i++){
             for (int j = 0; j < keySpace.length(); j++){
                 if (plainText.charAt(i) == keySpace.charAt(j)){

@@ -64,7 +64,7 @@ public class Main {
 
         // Question #2 - Permutation Cipher
         System.out.println("PERMUTATION CIPHER");
-        int m = getRandomNumberInRange(3, 7);
+        int m = getRandomNumberInRange(5, 10);
         int[] permKey = new int[m];
         permKey =  genRandomPermutationKey(m);
 

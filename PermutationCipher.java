@@ -20,6 +20,7 @@ public class PermutationCipher {
         String cipherText = "";
         String plainText = plaintext.toLowerCase();
 
+        //checks to see if the plaintext needs padding and adds it if necessary
         if (plainText.length() % m != 0){
             int add = m - (plainText.length() % m);
             for (int i = 0; i < add; i++){
